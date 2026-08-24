@@ -66,8 +66,9 @@ jobs:
       - name: Compile GKI Kernel
         run: |
           cd android-kernel
+          # Override POST_DEFCONFIG_CMDS to disable check_defconfig verification
           BUILD_CONFIG=common/build.config.gki.aarch64 \
-          SKIP_DEFCONFIG_CHECK=1 \
+          POST_DEFCONFIG_CMDS="true" \
           KMI_SYMBOL_LIST_STRICT_MODE=0 \
           KMI_ENFORCED=0 \
           LTO=thin \
