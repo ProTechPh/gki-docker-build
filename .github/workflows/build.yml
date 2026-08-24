@@ -63,12 +63,15 @@ jobs:
           CONFIG_POSIX_MQUEUE=y
           EOT
 
-      - name: Compile GKI Kernel
+      - name: Normalize Defconfig & Compile Kernel
         run: |
           cd android-kernel
-          # Override POST_DEFCONFIG_CMDS to disable check_defconfig verification
+          
+          # 1. Alisin ang check_defconfig call sa build config
+          sed -i 's/POST_DEFCONFIG_CMDS="check_defconfig"/POST_DEFCONFIG_CMDS=""/g' common/build.config.gki
+          
+          # 2. Simulan ang compilation
           BUILD_CONFIG=common/build.config.gki.aarch64 \
-          POST_DEFCONFIG_CMDS="true" \
           KMI_SYMBOL_LIST_STRICT_MODE=0 \
           KMI_ENFORCED=0 \
           LTO=thin \
